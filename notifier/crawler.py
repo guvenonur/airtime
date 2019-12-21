@@ -1,0 +1,45 @@
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
+from util import create_logger
+
+
+class Crawler:
+    def __init__(self):
+        self.logger = create_logger(msg='Crawler')
+        self.message = ''
+
+    def crawl_airtimes(self, df):
+        self.logger.info('Crawling Airtimes')
+
+        for i in df.itertuples():
+            imdb_id = i.imdb_id
+            season = f'season={i.season}'
+            url = "https://www.imdb.com/title/" + imdb_id
+            html = urlopen(url)
+            soup = BeautifulSoup(html, 'html.parser')
+            p1 = soup.find('div', attrs={'class': 'seasons-and-year-nav'})
+            p2 = p1.findAll('a')
+
+            href = []
+            for link in p2:
+                href.append(link.get('href'))
+
+            season_url = [k for k in href if season in k]
+
+            try:
+                imdb = 'https://www.imdb.com'
+                season_url = imdb + season_url[0]
+                html = urlopen(season_url)
+                soup2 = BeautifulSoup(html, 'html.parser')
+
+                # Find episode by its number
+                episode = i.episode
+                d = soup2.find('meta', attrs={'itemprop': 'episodeNumber', 'content': episode})
+                text = d.findNext('div').text
+                text = text.strip()
+                check = f'Airing time for season {i.season}, episode {episode} of {i.name} is {text}'
+            except:
+                check = f'Airing time for season {i.season}, episode {episode} of {i.name} is not anounced yet'
+            self.message = self.message + '\n' + check
+
+        return self.message

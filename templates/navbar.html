@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block navbar %}
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="nav-item">
+            <a class="nav-link {% if active is not none and active == 1 %}active{% endif %}" href="/">
+                Add New TV Show
+            </a>
+        </a>
+        <a class="nav-item">
+            <a class="nav-link {% if active is not none and active == 2 %}active{% endif %}" href="/list">
+                Your TV List
+            </a>
+        </a>
+        <a class="nav-item">
+            <a class="nav-link {% if active is not none and active == 2 %}active{% endif %}" href="/send">
+                Send Mail
+            </a>
+        </a>
+    </nav>
+</div>
+{% endblock %}

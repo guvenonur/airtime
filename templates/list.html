@@ -1,0 +1,52 @@
+{% extends "navbar.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-xs-12 col-md-12">
+                {% if error is defined %}
+                    <div class="alert alert-danger mb-4">{{ error }}</div>
+                {% endif %}
+                <div class="md-form mt-0">
+                    <input id="searchInput" class="form-control w-25 mb-4" type="text" placeholder="Search"
+                           aria-label="Search">
+                </div>
+                <table class="table table-striped" id="ftable">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" class="th-sm">IMDB ID <i class="fa fa-fw fa-sort"></i></th>
+                        <th scope="col" class="th-sm">Name <i class="fa fa-fw fa-sort"></i></th>
+                        <th scope="col" class="th-sm">Season <i class="fa fa-fw fa-sort"></i></th>
+                        <th scope="col" class="th-sm">Episode <i class="fa fa-fw fa-sort"></i></th>
+                        <th scope="col" class="th-sm">Action <i class="fa fa-fw fa-sort"></i></th>
+                    </tr>
+                    </thead>
+                    <tbody id="fbody">
+                    {% for row in rows %}
+                        <tr>
+                            <td>{{ row["imdb_id"] }}</td>
+                            <td>{{ row["name"] }}</td>
+                            <td>{{ row["season"] }}</td>
+                            <td>{{ row["episode"] }}</td>
+                            <td>
+                                <a href="list/edit?imdb_id={{ row.imdb_id }}"
+                                   class="btn-change btn btn-xs btn-info">
+                                    Edit
+                                </a>
+                                <a href="delete?imdb_id={{ row.imdb_id }}"
+                                   class="btn-change btn btn-xs btn-danger">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="/js/main.js?v=1"></script>
+{% endblock %}

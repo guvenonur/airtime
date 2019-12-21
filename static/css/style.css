@@ -1,0 +1,60 @@
+.logo {
+    max-width: 240px;
+    margin-bottom: 24px;
+}
+
+.done {
+    margin: 100px;
+}
+
+.jumbotron{
+    padding: 10rem 2rem;
+}
+
+a {
+    color: #e9ecef;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.mt {
+    margin-top: 128px;
+}
+
+body, html {
+    font-size: .95em;
+}
+
+.badge {
+    padding: .5em .8em !important;
+}
+
+.btn-xs {
+    padding: .1rem .3rem;
+    margin-top: -2px;
+    font-size: .875rem;
+}
+
+.input-group-xs > .form-control,
+.input-group-xs > .input-group-addon,
+.input-group-xs > .input-group-btn > .btn {
+    height: 24px;
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.input-group-xs > .form-control {
+    width: 30px;
+}
+
+.input-group-xs > .input-group-btn > .btn {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+@media (max-width: 786px) {
+    .mt {
+        margin-top: 32px;
+    }
+}
