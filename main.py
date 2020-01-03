@@ -42,6 +42,13 @@ def update_imdb():
     op.insert(df=df, table='imdb_dataset', method='replace')
 
 
+@celery.task()
+def send_mail(mail_name):
+    df = op.get_dataframe()
+    message = cr.crawl_airtimes(df=df)
+    em.send_email(mail=mail_name, message=message)
+
+
 @app.route('/')
 def home():
     update_imdb.apply_async()
@@ -53,7 +60,7 @@ def add_record():
     """
     Adding new record to tv_series
 
-    :return:
+    :return: tv series list
     """
     try:
         name = request.form['name']
@@ -72,8 +79,9 @@ def add_record():
 @app.route('/list')
 def show_list():
     """
+    Tv show list page
 
-    :return:
+    :return: tv series list
     """
     try:
         rows = op.get_list()
@@ -86,7 +94,7 @@ def show_list():
 @app.route('/list/edit', methods=['GET'])
 def get_list_edit():
     """
-    Response when get request to history edit
+    Response for get request to history edit
 
     :return: return history if user logged in ago, else return sign in page
     :rtype: str(render_template) or werkzeug.wrappers.Response(redirect)
@@ -144,18 +152,16 @@ def enter_mail():
     return render_template('mail.html')
 
 
-@app.route('/sendmail', methods=['POST', 'GET'])
-def send_mail():
-    try:
-        df = op.get_dataframe()
-        message = cr.crawl_airtimes(df=df)
-        mail = request.form['mail']
-        em.send_email(mail=mail, message=message)
+@app.route('/sendmail', methods=['POST'])
+def mail():
+    """
+    Crawls airtimes and sends mail in the background
 
-        return redirect('/done')
-
-    except Exception as e:
-        return render_template("mail.html", error=str(e))
+    :return: thank you page
+    """
+    mail_name = request.form['mail']
+    send_mail.apply_async([mail_name])
+    return redirect('/done')
 
 
 @app.route('/done')
