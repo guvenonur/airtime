@@ -19,14 +19,15 @@ python3 db/imdb_dataset.py
 Now you can either use supervisord or three terminal windows.
 
 #### Option 1: Terminals
-First Window: Run main.py
-```
-python main.py
-```
-Second Window: Run redis-server for celery backend
+First Window: Run redis-server for celery backend
 ```
 redis-server
 ```
+Second Window: Run main.py
+```
+python main.py config.ini
+```
+
 Third Window: Run celery worker
 ```
 celery -A main.celery worker

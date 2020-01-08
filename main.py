@@ -5,6 +5,7 @@ from notifier.email import Email
 from notifier.preparations import Preparations
 from db.tv_series import TvSeries
 from celery import Celery
+from util.config import config
 
 prep = Preparations()
 cr = Crawler()
@@ -14,8 +15,12 @@ op = Operations()
 app = Flask(__name__)
 app.secret_key = 'random string'
 
-app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
-app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+host = config['redis'].get('host')
+port = config['redis'].get('port')
+db = config['redis'].get('db')
+
+app.config['CELERY_BROKER_URL'] = f'redis://{host}:{port}/{db}'
+app.config['CELERY_RESULT_BACKEND'] = f'redis://{host}:{port}/{db}'
 
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
@@ -73,7 +78,7 @@ def add_record():
         return redirect('/list')
 
     except Exception as e:
-        return render_template("index.html", error=str(e))
+        return render_template('index.html', error=str(e))
 
 
 @app.route('/list')
@@ -85,10 +90,10 @@ def show_list():
     """
     try:
         rows = op.get_list()
-        return render_template("list.html", rows=rows)
+        return render_template('list.html', rows=rows)
 
     except Exception as e:
-        return render_template("list.html", rerror=str(e))
+        return render_template('list.html', error=str(e))
 
 
 @app.route('/list/edit', methods=['GET'])
@@ -105,7 +110,7 @@ def get_list_edit():
         return render_template('edit.html', item=res, title='List', active=2)
 
     except Exception as e:
-        return render_template("list.html", error=str(e))
+        return render_template('list.html', error=str(e))
 
 
 @app.route('/edit', methods=['POST'])
@@ -166,7 +171,7 @@ def mail():
 
 @app.route('/done')
 def final_page():
-    return render_template("done.html")
+    return render_template('done.html')
 
 
 if __name__ == '__main__':

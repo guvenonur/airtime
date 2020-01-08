@@ -2,6 +2,7 @@ import smtplib
 import ssl
 from email.mime.text import MIMEText
 from util import create_logger
+from util.config import config
 
 
 class Email:
@@ -11,12 +12,12 @@ class Email:
     def send_email(self, mail, message):
         self.logger.info('Sending Email')
 
-        port = 465  # For SSL
-        smtp_server = 'smtp.gmail.com'
-        sender_email = 'onurtest96@gmail.com'
+        port = config['mail'].get('port')
+        smtp_server = config['mail'].get('server')
+        sender_email = config['mail'].get('sender')
         receiver_email = mail
-        password = 'Onurtest1.'
-        subject = "Subject: Airtime of your TV shows\n"
+        password = config['mail'].get('passw')
+        subject = 'Subject: Airtime of your TV shows\n'
         body = f'Hello,\n{message}'
         content = subject + MIMEText(body, 'plain').as_string()
 

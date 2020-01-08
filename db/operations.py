@@ -15,11 +15,11 @@ class Operations:
 
     def insert(self, df, table='tv_series', method='append'):
         """
+        Insert to table
 
-        :param df:
-        :param table:
-        :param method:
-        :return:
+        :param pd.DataFrame df: dataframe to insert
+        :param str table: table name to be inserted
+        :param str method: insertion method if table exists
         """
         self.logger.info('Inserting tv_series to db')
 
@@ -38,8 +38,10 @@ class Operations:
 
     def get_imdb(self):
         """
+        Get imdb data
 
-        :return:
+        :return: imdb dataframe
+        :rtype: pd.DataFrame
         """
         self.logger.info('Get dataframe from db')
 
@@ -61,8 +63,10 @@ class Operations:
 
     def get_dataframe(self):
         """
+        Get tv series
 
-        :return:
+        :return: tv series dataframe
+        :rtype: pd.DataFrame
         """
         self.logger.info('Get dataframe from db')
 
@@ -96,7 +100,6 @@ class Operations:
 
         try:
             return session.query(ts).all()
-
         finally:
             session.close()
 

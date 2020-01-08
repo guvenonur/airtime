@@ -4,6 +4,8 @@ from util import create_logger
 
 
 class Crawler:
+    BASE_PATH = 'https://www.imdb.com'
+
     def __init__(self):
         self.logger = create_logger(msg='Crawler')
         self.message = ''
@@ -14,7 +16,7 @@ class Crawler:
         for i in df.itertuples():
             imdb_id = i.imdb_id
             season = f'season={i.season}'
-            url = "https://www.imdb.com/title/" + imdb_id
+            url = f'{self.BASE_PATH}/title/{imdb_id}'
             html = urlopen(url)
             soup = BeautifulSoup(html, 'html.parser')
             p1 = soup.find('div', attrs={'class': 'seasons-and-year-nav'})
@@ -27,8 +29,7 @@ class Crawler:
             season_url = [k for k in href if season in k]
 
             try:
-                imdb = 'https://www.imdb.com'
-                season_url = imdb + season_url[0]
+                season_url = f'{self.BASE_PATH}{season_url[0]}'
                 html = urlopen(season_url)
                 soup2 = BeautifulSoup(html, 'html.parser')
 
