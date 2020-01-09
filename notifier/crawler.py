@@ -11,6 +11,13 @@ class Crawler:
         self.message = ''
 
     def crawl_airtimes(self, df):
+        """
+        Crawl airtimes of tv shows
+
+        :param pd.DataFrame df: tv shows dataframe
+        :return: e-mail text content
+        :rtype: str
+        """
         self.logger.info('Crawling Airtimes')
 
         for i in df.itertuples():

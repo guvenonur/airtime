@@ -10,6 +10,12 @@ class Email:
         self.logger = create_logger(msg='Email part')
 
     def send_email(self, mail, message):
+        """
+        Send airtimes via e-mail
+        :param str mail: reciever e-mail
+        :param str message: e-mail text content
+        :return: e-mail
+        """
         self.logger.info('Sending Email')
 
         port = config['mail'].get('port')
