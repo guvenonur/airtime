@@ -1,6 +1,5 @@
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine
 
 Base = declarative_base()
 
@@ -12,8 +11,3 @@ class TvSeries(Base):
     name = Column('name', String(250), nullable=False, index=True)
     season = Column('season', Integer, nullable=True)
     episode = Column('episode', Integer, nullable=True)
-
-
-# Create only once
-engine = create_engine('sqlite:///airtime.db')
-Base.metadata.create_all(engine)

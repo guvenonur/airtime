@@ -13,10 +13,10 @@ class Preparations:
         self.logger = create_logger(msg='Data Preparations')
         self.tv_series = op.get_imdb()
         self.columns = {
-          'tconst': 'imdb_id',
-          'primaryTitle': 'primary_title',
-          'primaryTitle2': 'primary_title_lower',
-                        }
+            'tconst': 'imdb_id',
+            'primaryTitle': 'primary_title',
+            'primaryTitle2': 'primary_title_lower',
+        }
 
     def get_imdb_data(self):
         """
@@ -32,7 +32,6 @@ class Preparations:
 
         try:
             open(fname, 'wb').write(r.content)
-
             zipped = gzip.GzipFile(fname, 'rb')
             s = zipped.read()
             zipped.close()
@@ -45,7 +44,9 @@ class Preparations:
             os.remove("title.basics.tsv.gz")
             os.remove("title.basics.tsv")
 
-        titles = titles[(titles['titleType'] == 'tvSeries') & (titles['startYear'] != '\\N')].reset_index(drop=True)
+        type_condition = (titles['titleType'] == 'tvSeries')
+        null_condition = (titles['startYear'] != '\\N')
+        titles = titles[type_condition & null_condition].reset_index(drop=True)
         titles['primaryTitle2'] = titles['primaryTitle'].apply(lambda x: x.lower())
 
         return titles[['tconst', 'primaryTitle', 'primaryTitle2']].rename(columns=self.columns)
