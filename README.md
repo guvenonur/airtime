@@ -10,13 +10,9 @@ Log where you left your favorite tv shows and this project will crawl the airtim
 
 ## Getting Started
 
-First, create sqlite db once by running:
+I have used python3.6.5 for this project.
 
-```
-python3 db/imdb_dataset.py
-```
-
-Now you can either use supervisord or three terminal windows.
+To get started; you can either use supervisord or three terminal windows.
 
 ### Option 1: Terminals
 First Window: Run redis-server for celery backend
