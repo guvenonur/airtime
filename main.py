@@ -49,7 +49,7 @@ def update_imdb():
 
 @celery.task()
 def send_mail(mail_name):
-    df = op.get_datafradme()
+    df = op.get_dataframe()
     message = cr.crawl_airtimes(df=df)
     em.send_email(mail=mail_name, message=message)
 
