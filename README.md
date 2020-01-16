@@ -26,7 +26,7 @@ python main.py config.ini
 
 Third Window: Run celery worker
 ```
-celery -A main.celery worker
+env TEST_CONFIG=config.ini celery -A main.celery worker
 ```
 ### Option 2: Supervisor
 Run supervisor using supervisord.conf
@@ -40,7 +40,7 @@ Check http://localhost:5000/
 And, you can use flower to check celery tasks with:
 
 ```
-celery flower -A main.celery --address=127.0.0.1 --port=5555
+env TEST_CONFIG=config.ini celery flower -A main.celery --address=127.0.0.1 --port=5555
 ```
 Now you can check http://localhost:5555/ to monitor celery tasks.
 
