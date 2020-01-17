@@ -4,45 +4,17 @@ Log where you left your favorite tv shows and this project will crawl the airtim
 
 ## Installation
 
-```git clone https://github.com/guvenonur/airtime.git```
-
-```pip install -r requirements.txt ```
+`git clone https://github.com/guvenonur/airtime.git`
 
 ## Getting Started
 
-I have used python3.6.5 for this project.
-
-To get started; you can either use supervisord or three terminal windows.
-
-### Option 1: Terminals
-First Window: Run redis-server for celery backend
 ```
-redis-server
-```
-Second Window: Run main.py
-```
-python main.py config.ini
-```
-
-Third Window: Run celery worker
-```
-env TEST_CONFIG=config.ini celery -A main.celery worker
-```
-### Option 2: Supervisor
-Run supervisor using supervisord.conf
-```
-supervisord -c supervisord.conf
+docker-compose build --no-cache --parallel && docker-compose up
 ```
 
 ### Test
-Check http://localhost:5000/
 
-And, you can use flower to check celery tasks with:
-
-```
-env TEST_CONFIG=config.ini celery flower -A main.celery --address=127.0.0.1 --port=5555
-```
-Now you can check http://localhost:5555/ to monitor celery tasks.
+Check `http://localhost:5000/`
 
 ## Acknowledgements
-* Big shout out to all my colleagues for helping and guiding me through it all, especially Egemen Zeytinci and Tarık Yılmaz.
+* Big shout out to all my colleagues for helping and guiding me through it all, especially `Egemen Zeytinci` and `Tarık Yılmaz`.

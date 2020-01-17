@@ -1,0 +1,39 @@
+version: '3.3'
+
+networks:
+  airtime:
+    driver: bridge
+
+volumes:
+  airtime:
+
+services:
+    redis:
+        image: redis:alpine
+        networks:
+            - airtime
+        ports:
+            - 6379:6379
+    celery:
+        build:
+          context: .
+          dockerfile: ./dockers/celery/Dockerfile
+        networks:
+            - airtime
+        volumes:
+            - airtime:/tmp/airtime
+        environment:
+            TEST_CONFIG: /tmp/airtime/config.ini
+    app:
+        build:
+          context: .
+          dockerfile: ./dockers/app/Dockerfile
+        networks:
+          - airtime
+        volumes:
+          - airtime:/tmp/airtime
+        depends_on:
+            - redis
+            - celery
+        ports:
+            - 5000:5000
