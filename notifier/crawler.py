@@ -29,10 +29,7 @@ class Crawler:
             p1 = soup.find('div', attrs={'class': 'seasons-and-year-nav'})
             p2 = p1.findAll('a')
 
-            href = []
-            for link in p2:
-                href.append(link.get('href'))
-
+            href = [link.get('href') for link in p2]
             season_url = [k for k in href if season in k]
 
             try:
@@ -45,7 +42,11 @@ class Crawler:
                 d = soup2.find('meta', attrs={'itemprop': 'episodeNumber', 'content': episode})
                 text = d.findNext('div').text
                 text = text.strip()
-                check = f'Airing time for season {i.season}, episode {episode} of {i.name} is {text}'
+
+                if len(text) > 2:
+                    check = f'Airing time for season {i.season}, episode {episode} of {i.name} is {text}'
+                else:
+                    check = f'Airing time for season {i.season}, episode {episode} of {i.name} is not anounced yet'
             except:
                 check = f'Airing time for season {i.season}, episode {episode} of {i.name} is not anounced yet'
             self.message = self.message + '\n' + check
